@@ -9,121 +9,128 @@
         <link href="app.css" rel="stylesheet" type="text/css"/>
         <link href="friends/ProfilesView.css" rel="stylesheet" type="text/css"/>
         <link href="friends/SearchView.css" rel="stylesheet" type="text/css"/>
-
+		<link href="friends/StatsView.css" rel="stylesheet" type="text/css"/>
+		
 		<link rel="stylesheet" href="../vendor/font-awesome/css/font-awesome.min.css">
     </head>
     <body>
 
         <div id="app-container">
-			
+
             <div id="search-container">
                 <div id="search-panel-container"></div>
                 <div id="search-results-container"></div>
             </div>
-
+			
 			<div id="map-container"></div>
-
+			
+			<div id="stats-container"></div>
         </div>
 
 
         <!-- templates -->
         <script type="text/plain" id="tmpl_profile">
 			<div data-uid="<%= uid %>" class="profile-result-row">
-				<div class="profile-image" style="background: url('<%= pictureUrl %>'); background-size: cover; background-position: center center; "></div>
-				<table class="profile-name">
-					<tr>
-						<td colspan="2">
-							<span class="profile-name-name"><%= name %></span>
-							<span class="profile-name-surname"><%= surname %></span>
-						</td>
-					</tr>
-					<tr>
-						<td class="profile-situation">
-							<%= situation %>
-							&nbsp;
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td class="profile-hometown">
-							<%= hometown %>
-							&nbsp;
-						</td>
-						<td class="profile-age">
-							<%= age %>
-							&nbsp;
-						</td>
-					</tr>
-				</table>
+			<div class="profile-image" style="background: url('<%= pictureUrl %>'); background-size: cover; background-position: center center; "></div>
+			<table class="profile-name">
+			<tr>
+			<td colspan="2">
+			<span class="profile-name-name"><%= name %></span>
+			<span class="profile-name-surname"><%= surname %></span>
+			</td>
+			</tr>
+			<tr>
+			<td class="profile-situation">
+			<%= situation %>
+			&nbsp;
+			</td>
+			<td></td>
+			</tr>
+			<tr>
+			<td class="profile-hometown">
+			<%= hometown %>
+			&nbsp;
+			</td>
+			<td class="profile-age">
+			<%= age %>
+			&nbsp;
+			</td>
+			</tr>
+			</table>
 			</div>
         </script>
 
 		<script type="text/plain" id="tmpl_search_panel">
 			<input type="text" id="search-query" placeholder="Search..."/>
-				<div id="sort-panel">
-				<div class="button" id="sort-toggle-order"><i class="fa fa-sort-numeric-asc"></i></div>
-				<div class="button" id="sort-by-name">Name</div>
-				<div class="button" id="sort-by-birthdate">Birthdate</div>
+			<div id="sort-panel">
+			<div class="button" id="sort-toggle-order"><i class="fa fa-sort-alpha-asc"></i></div>
+			<div class="button" id="sort-by-name">Name</div>
+			<div class="button" id="sort-by-birthdate">Birthdate</div>
+			<div class="button" id="sort-by-location">Location</div>
 			</div>
 		</script>
-		
+
 		<script type="text/plain" id="tmpl_map">
 			<div id="map-canvas"></div>
 		</script>
-		
+
         <!-- vendor -->
         <script src="../vendor/js/jquery.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/lodash.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/backbone.js" type="text/javascript" charset="utf-8"></script>
 		<script src="mixins/Collection.uberSort.js" type="text/javascript" charset="utf-8"></script>
-
+		
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		
         <!-- app -->
         <script type="text/javascript">var FbFriends = {}; // declare "namespace"</script>
         <script src="data.js" type="text/javascript" charset="utf-8"></script>
         <script src="friends/App.js" type="text/javascript" charset="utf-8"></script>
-		
+
         <script src="friends/Friend.js" type="text/javascript" charset="utf-8"></script>
         <script src="friends/Friends.js" type="text/javascript" charset="utf-8"></script>
 		<script src="friends/MapHandler.js" type="text/javascript"></script>
-		
+
         <script src="friends/ProfilesView.js" type="text/javascript" charset="utf-8"></script>
         <script src="friends/SearchView.js" type="text/javascript"></script>
 		<script src="friends/SearchToolsView.js" type="text/javascript"></script>
 		<script src="friends/MapView.js" type="text/javascript"></script>
-		
+
 		<script type="text/javascript"
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnJEpeVXBdC04CTH136cEGkPncqfDjDkw&sensor=FALSE">
         </script>
-		
+
         <!-- bootstrap -->
         <script type="text/javascript">
 			var friends = new FbFriends.Friends(FRIENDS);
-			var map = new FbFriends.MapHandler({
-				el: document.getElementById("map-canvas")
+
+			var profilesView = new FbFriends.ProfilesView({
+				el: $('#search-results-container')[0],
+				tmpl: _.template($('#tmpl_profile').html()),
+				friends: friends
 			});
+			
 			var app = new FbFriends.App({
 				el: $('#app-container')[0],
-				
 				// Inner views
 				searchView: new FbFriends.SearchView({
 					el: $('#search-container')[0],
-					
 					searchToolsView: new FbFriends.SearchToolsView({
 						el: $('#search-panel-container')[0],
 						tmpl: _.template($('#tmpl_search_panel').html()),
 						friends: friends
 					}),
-					profilesView: new FbFriends.ProfilesView({
-						el: $('#search-results-container')[0],
-						tmpl: _.template($('#tmpl_profile').html()),
-						friends: friends
-					})
+					profilesView: profilesView
 				}),
 				mapView: new FbFriends.MapView({
 					el: $('#map-container')[0],
 					tmpl: _.template($('#tmpl_map').html())
 				})
+			});
+			var map = new FbFriends.MapHandler({
+				el: document.getElementById("map-canvas"),
+				profilesView: profilesView
 			});
 			friends.reset(FRIENDS);
         </script>

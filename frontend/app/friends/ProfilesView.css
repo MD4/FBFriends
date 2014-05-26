@@ -34,6 +34,19 @@
 	transition: none;
 }
 
+#search-container .profile-result-row.selected {
+    background-color: rgb(20, 30, 30);
+	color: rgba(255, 255, 255, 0.8);
+	border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+	transition: none;
+}
+
+#search-container .profile-result-row.selected:hover {
+    background-color: rgb(25, 35, 35);
+	color: white;
+}
+
 #search-container .profile-result-row .profile-image {
 	border-radius: 3px;
     float: left;

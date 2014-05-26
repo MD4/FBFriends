@@ -3,6 +3,7 @@ FbFriends.SearchToolsView = Backbone.View.extend({
 		'keyup #search-query': 'search',
 		'click #sort-by-name': 'sortByName',
 		'click #sort-by-birthdate': 'sortByBirthday',
+		'click #sort-by-location' : 'sortByLocation',
 		'click #sort-toggle-order' : 'sortToggleOrder'
 	},
 	render: function() {
@@ -24,11 +25,18 @@ FbFriends.SearchToolsView = Backbone.View.extend({
 		this.friends.sortByAttribute('birthday_date');
 		this.sortButtonHighlight(event.target);
 	},
-	sortToggleOrder: function() {
+	sortByLocation: function(event) {
+		this.friends.sortByAttribute('current_location.city');
+		this.sortButtonHighlight(event.target);
+	},
+	sortToggleOrder: function(event) {
 		this.friends.sortToggleOrder();
+		$(event.currentTarget).find('i')
+				.removeClass('fa-sort-alpha-desc fa-sort-alpha-asc')
+				.addClass(this.friends.sortOrder === this.friends.SORT_ORDER_ASC ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc');
 	},
 	sortButtonHighlight: function(element) {
-		$('#sort-panel .button').removeClass('highlighted');
-		$(event.target).addClass('highlighted');
+		$('#sort-panel .button').removeClass('selected');
+		$(element).addClass('selected');
 	}
 });

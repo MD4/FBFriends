@@ -15,18 +15,31 @@ FbFriends.ProfilesView = Backbone.View.extend({
 			return this.tmpl({
 				name: friendModel.get('first_name'),
 				surname: friendModel.get('last_name'),
-				hometown: (friendModel.get('hometown_location') || {}).city,
+				hometown: (friendModel.get('current_location') || {}).city,
 				pictureUrl: friendModel.get('pic_small'),
-				age: (!age ? '' : age) + ' ans',
+				age: !age ? '' : (age + ' ans'),
 				situation: friendModel.get('relationship_status'),
 				uid: friendModel.get('uid')
 			});
 		}, this).join('\n');
 
 		this.$el.empty().append(html);
+		
+		this.trigger('reset:allMarkers');
+		
+		coll.forEach(function(friend){
+			this.trigger('create:friendMarker', friend);
+		}.bind(this));
+	},
+	selectProfileByUid: function(uid) {
+		var friendModel = this.friends.findWhere({'uid': uid});
+		this.trigger('change:selectedFriend', friendModel);
+		
+		$('#search-container .profile-result-row').removeClass('selected');
+		$('#search-container .profile-result-row[data-uid=' + uid + ']').addClass('selected');
 	},
 	selectProfile: function(event) {
 		var uid = event.currentTarget.attributes['data-uid'].value;
-		var friendModel = this.friends.findWhere({'uid': uid});
+		this.selectProfileByUid(uid);
 	}
 });

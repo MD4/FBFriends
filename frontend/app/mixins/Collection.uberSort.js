@@ -5,6 +5,9 @@ Backbone.Collection.prototype.uberSort = function(sortString, options) {
 		return _.isString(a) && _.isString(b) ? a .localeCompare(b) : b - a;
 	};
 	var getValue = options.getValue || function(rawValue) {
+		if (!rawValue) {
+			return '0';
+		}
 		return '' + rawValue;
 	};
 	

@@ -1,0 +1,9 @@
+#stats-container {
+    height: 220px;
+    width: 80%;
+    background-color: rgb(35, 45, 45);
+	position: absolute;
+	bottom: -20px;
+	right: -20px;
+	box-shadow: inset 0px 0px 20px black;
+}
