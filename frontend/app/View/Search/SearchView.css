@@ -1,0 +1,10 @@
+#search-container {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+    height: calc(100% - 200px);
+    width: 300px;
+    background-color: rgb(35, 45, 45);
+	/*box-shadow: inset 0px 0px 20px black;*/
+	border-right: 1px solid rgb(60, 70, 80);
+}

@@ -1,10 +1,10 @@
 'use strict';
 
-FbFriends.Friends = Backbone.Collection.extend({
+FbFriends.Model.Friends = Backbone.Collection.extend({
 	SORT_ORDER_ASC: true,
 	SORT_ORDER_DESC: false,
 	
-	model: FbFriends.Friend,
+	model: FbFriends.Model.Friend,
 	lastSort: '',
 	
 	filterResultSet: null,
@@ -21,7 +21,7 @@ FbFriends.Friends = Backbone.Collection.extend({
 		var filteredColl = this.filter(function(friendModel) {
 			return friendModel.fullNameContains(query);
 		});
-		this.filterResultSet = new FbFriends.Friends(filteredColl);
+		this.filterResultSet = new FbFriends.Model.Friends(filteredColl);
 		this.trigger('reset', this.filterResultSet);
 	},
 	sortByAttribute: function(attribute) {

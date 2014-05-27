@@ -1,4 +1,6 @@
-FbFriends.SearchToolsView = Backbone.View.extend({
+'use strict';
+
+FbFriends.View.SearchToolsView = Backbone.View.extend({
 	events: {
 		'keyup #search-query': 'search',
 		'click #sort-by-name': 'sortByName',
@@ -36,7 +38,7 @@ FbFriends.SearchToolsView = Backbone.View.extend({
 				.addClass(this.friends.sortOrder === this.friends.SORT_ORDER_ASC ? 'fa-sort-alpha-asc' : 'fa-sort-alpha-desc');
 	},
 	sortButtonHighlight: function(element) {
-		$('#sort-panel .button').removeClass('selected');
+		this.$el.find('#sort-panel .button').removeClass('selected');
 		$(element).addClass('selected');
 	}
 });

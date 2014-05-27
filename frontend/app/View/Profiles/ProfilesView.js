@@ -1,16 +1,16 @@
 'use strict';
 
-FbFriends.ProfilesView = Backbone.View.extend({
+FbFriends.View.ProfilesView = Backbone.View.extend({
 	events: {
-		'click .profile-result-row' : 'selectProfile'
+		'click .profile-result-row': 'selectProfile'
 	},
-	initialize: function(options) {
+	initialize: function (options) {
 		_.extend(this, options || {});
 		this.friends.on('reset', this.renderProfiles, this);
 		this.friends.filterByFullname('');
 	},
-	renderProfiles: function(coll) {
-		var html = coll.map(function(friendModel) {
+	renderProfiles: function (coll) {
+		var html = coll.map(function (friendModel) {
 			var age = friendModel.getAge();
 			return this.tmpl({
 				name: friendModel.get('first_name'),
@@ -24,21 +24,28 @@ FbFriends.ProfilesView = Backbone.View.extend({
 		}, this).join('\n');
 
 		this.$el.empty().append(html);
-		
+
 		this.trigger('reset:allMarkers');
-		
-		coll.forEach(function(friend){
+
+		coll.forEach(function (friend) {
 			this.trigger('create:friendMarker', friend);
 		}.bind(this));
 	},
-	selectProfileByUid: function(uid) {
+	selectProfileByUid: function (uid) {
 		var friendModel = this.friends.findWhere({'uid': uid});
+		var friendRowEl = this.$el.find('.profile-result-row[data-uid=' + uid + ']');
+		
 		this.trigger('change:selectedFriend', friendModel);
 		
-		$('#search-container .profile-result-row').removeClass('selected');
-		$('#search-container .profile-result-row[data-uid=' + uid + ']').addClass('selected');
+		this.$el.find('.profile-result-row').removeClass('selected');
+		friendRowEl.addClass('selected');
+
+		var scrollTo = this.$el.scrollTop() + friendRowEl.position().top - 102;
+		this.$el.animate({
+			scrollTop: scrollTo
+		}, 250);
 	},
-	selectProfile: function(event) {
+	selectProfile: function (event) {
 		var uid = event.currentTarget.attributes['data-uid'].value;
 		this.selectProfileByUid(uid);
 	}

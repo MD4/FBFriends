@@ -1,6 +1,6 @@
 'use strict';
 
-FbFriends.Friend = Backbone.Model.extend({
+FbFriends.Model.Friend = Backbone.Model.extend({
 	/**
 	 * @param  {String} query [description]
 	 * @return {Boolean}       true if nananana

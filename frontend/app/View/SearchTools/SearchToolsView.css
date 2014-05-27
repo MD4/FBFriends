@@ -1,11 +1,4 @@
-#search-container {
-    float: left;
-    height: 100%;
-    width: 300px;
-    background-color: rgb(35, 45, 45);
-}
-
-#search-container #search-query {
+#search-tools-container #search-query {
     padding: 10px;
     padding-bottom: 5px;
     padding-top: 5px;
@@ -22,17 +15,17 @@
 	outline: none;
 }
 
-#search-container #search-query:focus {
+#search-tools-container #search-query:focus {
 	background-color: rgb(30, 45, 45);
 	box-shadow: inset 0px 0px 5px rgba(70, 150, 180, 0.5);
 }
 
-#search-container #sort-panel {
+#search-tools-container #sort-panel {
 	text-align: left;
 	padding-bottom: 5px;
 }
 
-#search-container #sort-panel .button {
+#search-tools-container #sort-panel .button {
 	text-align: left;
 	margin-left: 5px;
 }

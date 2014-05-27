@@ -3,75 +3,84 @@
     <head>
         <meta charset="utf-8">
         <title>Facebook friends</title>
-        <link rel="stylesheet" href="../vendor/css/bootstrap.css" />
-        <link rel="stylesheet" href="../vendor/css/bootstrap-theme.css" />
 
-        <link href="app.css" rel="stylesheet" type="text/css"/>
-        <link href="friends/ProfilesView.css" rel="stylesheet" type="text/css"/>
-        <link href="friends/SearchView.css" rel="stylesheet" type="text/css"/>
-		<link href="friends/StatsView.css" rel="stylesheet" type="text/css"/>
+        <link href="../vendor/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="../vendor/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+
+		<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<link href="View/App/AppView.css" rel="stylesheet" type="text/css"/>
+		<link href="View/Map/MapView.css" rel="stylesheet" type="text/css"/>
+		<link href="View/Profiles/ProfilesView.css" rel="stylesheet" type="text/css"/>
+		<link href="View/Search/SearchView.css" rel="stylesheet" type="text/css"/>
+		<link href="View/SearchTools/SearchToolsView.css" rel="stylesheet" type="text/css"/>
+		<link href="View/Stats/StatsView.css" rel="stylesheet" type="text/css"/>
 		
-		<link rel="stylesheet" href="../vendor/font-awesome/css/font-awesome.min.css">
     </head>
     <body>
 
         <div id="app-container">
 
-            <div id="search-container">
-                <div id="search-panel-container"></div>
-                <div id="search-results-container"></div>
-            </div>
-			
 			<div id="map-container"></div>
 			
+            <div id="search-container">
+                <div id="search-tools-container"></div>
+                <div id="search-results-container"></div>
+            </div>
+
 			<div id="stats-container"></div>
+
         </div>
 
 
         <!-- templates -->
-        <script type="text/plain" id="tmpl_profile">
+        <script type="text/html" id="tmpl_profile">
 			<div data-uid="<%= uid %>" class="profile-result-row">
-			<div class="profile-image" style="background: url('<%= pictureUrl %>'); background-size: cover; background-position: center center; "></div>
-			<table class="profile-name">
-			<tr>
-			<td colspan="2">
-			<span class="profile-name-name"><%= name %></span>
-			<span class="profile-name-surname"><%= surname %></span>
-			</td>
-			</tr>
-			<tr>
-			<td class="profile-situation">
-			<%= situation %>
-			&nbsp;
-			</td>
-			<td></td>
-			</tr>
-			<tr>
-			<td class="profile-hometown">
-			<%= hometown %>
-			&nbsp;
-			</td>
-			<td class="profile-age">
-			<%= age %>
-			&nbsp;
-			</td>
-			</tr>
-			</table>
+				<div class="profile-image" style="background: url('<%= pictureUrl %>'); background-size: cover; background-position: center center; "></div>
+				<table class="profile-name">
+					<tr>
+						<td colspan="2">
+							<span class="profile-name-name"><%= name %></span>
+							<span class="profile-name-surname"><%= surname %></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="profile-situation">
+							<%= situation %>
+							&nbsp;
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="profile-hometown">
+							<%= hometown %>
+							&nbsp;
+						</td>
+						<td class="profile-age">
+							<%= age %>
+							&nbsp;
+						</td>
+					</tr>
+				</table>
 			</div>
         </script>
 
-		<script type="text/plain" id="tmpl_search_panel">
+		<script type="text/html" id="tmpl_search_panel">
 			<input type="text" id="search-query" placeholder="Search..."/>
 			<div id="sort-panel">
-			<div class="button" id="sort-toggle-order"><i class="fa fa-sort-alpha-asc"></i></div>
-			<div class="button" id="sort-by-name">Name</div>
-			<div class="button" id="sort-by-birthdate">Birthdate</div>
-			<div class="button" id="sort-by-location">Location</div>
+				<div class="button" id="sort-toggle-order"><i class="fa fa-sort-alpha-asc"></i></div>
+				<div class="button" id="sort-by-name">Name</div>
+				<div class="button" id="sort-by-birthdate">Birthdate</div>
+				<div class="button" id="sort-by-location">Location</div>
 			</div>
 		</script>
 
-		<script type="text/plain" id="tmpl_map">
+		<script type="text/html" id="tmpl_map">
 			<div id="map-canvas"></div>
+		</script>
+
+		<script type="text/html" id="tmpl_stats">
+			<p>Hi !</p>
 		</script>
 
         <!-- vendor -->
@@ -79,56 +88,70 @@
         <script src="../vendor/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/lodash.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/backbone.js" type="text/javascript" charset="utf-8"></script>
-		<script src="mixins/Collection.uberSort.js" type="text/javascript" charset="utf-8"></script>
-		
+
+		<script src="Mixins/Collection.uberSort.js" type="text/javascript" charset="utf-8"></script>
+
 		<script src="http://d3js.org/d3.v3.min.js"></script>
-		
+
         <!-- app -->
-        <script type="text/javascript">var FbFriends = {}; // declare "namespace"</script>
+        <script type="text/javascript">
+			// Namespaces & packages
+			var FbFriends = {
+				Handler: {},
+				Model: {},
+				View: {}
+			};
+		</script>
         <script src="data.js" type="text/javascript" charset="utf-8"></script>
-        <script src="friends/App.js" type="text/javascript" charset="utf-8"></script>
-
-        <script src="friends/Friend.js" type="text/javascript" charset="utf-8"></script>
-        <script src="friends/Friends.js" type="text/javascript" charset="utf-8"></script>
-		<script src="friends/MapHandler.js" type="text/javascript"></script>
-
-        <script src="friends/ProfilesView.js" type="text/javascript" charset="utf-8"></script>
-        <script src="friends/SearchView.js" type="text/javascript"></script>
-		<script src="friends/SearchToolsView.js" type="text/javascript"></script>
-		<script src="friends/MapView.js" type="text/javascript"></script>
-
+		
+		<script src="Model/Friend.js" type="text/javascript"></script>
+		<script src="Model/Friends.js" type="text/javascript"></script>
+		
+		<script src="Handler/MapHandler.js" type="text/javascript"></script>
+		
+		<script src="View/App/AppView.js" type="text/javascript"></script>
+		<script src="View/Map/MapView.js" type="text/javascript"></script>
+		<script src="View/Profiles/ProfilesView.js" type="text/javascript"></script>
+		<script src="View/Search/SearchView.js" type="text/javascript"></script>
+		<script src="View/SearchTools/SearchToolsView.js" type="text/javascript"></script>
+		<script src="View/Stats/StatsView.js" type="text/javascript"></script>
+		
 		<script type="text/javascript"
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnJEpeVXBdC04CTH136cEGkPncqfDjDkw&sensor=FALSE">
         </script>
 
         <!-- bootstrap -->
         <script type="text/javascript">
-			var friends = new FbFriends.Friends(FRIENDS);
+			var friends = new FbFriends.Model.Friends(FRIENDS);
 
-			var profilesView = new FbFriends.ProfilesView({
+			var profilesView = new FbFriends.View.ProfilesView({
 				el: $('#search-results-container')[0],
 				tmpl: _.template($('#tmpl_profile').html()),
 				friends: friends
 			});
-			
-			var app = new FbFriends.App({
+
+			var app = new FbFriends.View.App({
 				el: $('#app-container')[0],
 				// Inner views
-				searchView: new FbFriends.SearchView({
+				searchView: new FbFriends.View.SearchView({
 					el: $('#search-container')[0],
-					searchToolsView: new FbFriends.SearchToolsView({
-						el: $('#search-panel-container')[0],
+					searchToolsView: new FbFriends.View.SearchToolsView({
+						el: $('#search-tools-container')[0],
 						tmpl: _.template($('#tmpl_search_panel').html()),
 						friends: friends
 					}),
 					profilesView: profilesView
 				}),
-				mapView: new FbFriends.MapView({
+				statsView: new FbFriends.View.StatsView({
+					el: $('#stats-container')[0],
+					tmpl: _.template($('#tmpl_stats').html())
+				}),
+				mapView: new FbFriends.View.MapView({
 					el: $('#map-container')[0],
 					tmpl: _.template($('#tmpl_map').html())
 				})
 			});
-			var map = new FbFriends.MapHandler({
+			var map = new FbFriends.Handler.MapHandler({
 				el: document.getElementById("map-canvas"),
 				profilesView: profilesView
 			});

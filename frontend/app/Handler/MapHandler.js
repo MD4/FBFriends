@@ -1,6 +1,6 @@
 'use strict';
 
-FbFriends.MapHandler = Backbone.Model.extend({
+FbFriends.Handler.MapHandler = Backbone.Model.extend({
 	initialize: function(options) {
 		_.extend(this, options || {});
 

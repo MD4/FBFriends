@@ -1,6 +1,6 @@
 'use strict';
 
-FbFriends.App = Backbone.View.extend({
+FbFriends.View.App = Backbone.View.extend({
 	friends: null,
 	initialize: function (options) {
 		_.extend(this, options || {});
@@ -8,6 +8,7 @@ FbFriends.App = Backbone.View.extend({
 	},
 	render: function () {
 		this.searchView.render();
+		this.statsView.render();
 		this.mapView.render();
 	}
 });

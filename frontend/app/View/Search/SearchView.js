@@ -1,4 +1,6 @@
-FbFriends.SearchView = Backbone.View.extend({
+'use strict';
+
+FbFriends.View.SearchView = Backbone.View.extend({
 	initialize: function(options) {
 		_.extend(this, options || {});
 	},
