@@ -7,3 +7,5 @@ Utilisation :
 
 Déposez le data.js à la racine du projet (dossier 'app')
 ...et lancez la page 'index.html' !
+
+PS : Optimisé pour chrome... (faute de temps ! :D)
