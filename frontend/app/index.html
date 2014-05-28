@@ -15,8 +15,10 @@
 		<link href="View/Search/SearchView.css" rel="stylesheet" type="text/css"/>
 		<link href="View/SearchTools/SearchToolsView.css" rel="stylesheet" type="text/css"/>
 		<link href="View/Stats/StatsView.css" rel="stylesheet" type="text/css"/>
+		<link href="View/Stats/Charts/Pie/PieChartView.css" rel="stylesheet" type="text/css"/>
 		<link href="View/Stats/Charts/Bar/BarChartView.css" rel="stylesheet" type="text/css"/>
-
+		<link href="View/Stats/Charts/Value/ValueChartView.css" rel="stylesheet" type="text/css"/>
+		
     </head>
     <body>
 
@@ -84,7 +86,7 @@
 			<div id="stats-slider"></div>
 		</script>
 
-		<script type="text/html" id="tmpl_BarChart">
+		<script type="text/html" id="tmpl_PieChart">
 			<div class="stats-chart-title">
 				<%= title %>
 			</div>
@@ -96,13 +98,31 @@
 				</g>
 			</svg>
 		</script>
+		
+		<script type="text/html" id="tmpl_BarChart">
+			<div class="stats-chart-title">
+				<%= title %>
+			</div>
+			<svg>
+				<g></g>
+			</svg>
+			
+		</script>
+		
+		<script type="text/html" id="tmpl_ValueChart">
+			<div class="stats-chart-title">
+				<%= title %>
+			</div>
+			<div class="stats-count-value"></div>
+		</script>
+		
 
         <!-- vendor -->
         <script src="../vendor/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../vendor/js/jquery.easing.js" type="text/javascript"></script>
         <script src="../vendor/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/lodash.js" type="text/javascript" charset="utf-8"></script>
         <script src="../vendor/js/backbone.js" type="text/javascript" charset="utf-8"></script>
-
 		<script src="Mixins/Collection.uberSort.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="http://d3js.org/d3.v3.min.js"></script>
@@ -127,6 +147,11 @@
 		<script src="Model/Stat.js" type="text/javascript"></script>
 		<script src="Model/Stats.js" type="text/javascript"></script>
 		<script src="Model/Stats/MFDistribution.js" type="text/javascript"></script>
+		<script src="Model/Stats/AgeDistribution.js" type="text/javascript"></script>
+		<script src="Model/Stats/StatusDistribution.js" type="text/javascript"></script>
+		<script src="Model/Stats/AgeAverage.js" type="text/javascript"></script>
+		<script src="Model/Stats/FriendCountAverage.js" type="text/javascript"></script>
+		<script src="Model/Stats/OnlineDistribution.js" type="text/javascript"></script>
 		
 		<script src="Handler/MapHandler.js" type="text/javascript"></script>
 
@@ -136,7 +161,9 @@
 		<script src="View/Search/SearchView.js" type="text/javascript"></script>
 		<script src="View/SearchTools/SearchToolsView.js" type="text/javascript"></script>
 		<script src="View/Stats/StatsView.js" type="text/javascript"></script>
+		<script src="View/Stats/Charts/Pie/PieChartView.js" type="text/javascript"></script>
 		<script src="View/Stats/Charts/Bar/BarChartView.js" type="text/javascript"></script>
+		<script src="View/Stats/Charts/Value/ValueChartView.js" type="text/javascript"></script>
 		
 		<script type="text/javascript"
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnJEpeVXBdC04CTH136cEGkPncqfDjDkw&sensor=FALSE">
@@ -148,6 +175,21 @@
 
 			var stats = new FbFriends.Model.Stats([
 				new FbFriends.Model.Stats.MFDistribution({
+					friends: friends
+				}),
+				new FbFriends.Model.Stats.AgeAverage({
+					friends: friends
+				}),
+				new FbFriends.Model.Stats.AgeDistribution({
+					friends: friends
+				}),
+				new FbFriends.Model.Stats.StatusDistribution({
+					friends: friends
+				}),
+				new FbFriends.Model.Stats.FriendCountAverage({
+					friends: friends
+				}),
+				new FbFriends.Model.Stats.OnlineDistribution({
 					friends: friends
 				})
 			]);

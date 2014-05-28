@@ -1,10 +1,9 @@
-.stats-BarChart polyline{
-	opacity: 0.66;
-	stroke: white;
-	stroke-width: 1px;
-	fill: none;
+.stats-BarChart rect {
+  fill: steelblue;
 }
 
-.stats-BarChart path.slice{
-	stroke-width: 2px;
+.stats-BarChart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
 }

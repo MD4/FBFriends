@@ -1,0 +1,10 @@
+.stats-PieChart polyline{
+	opacity: 0.66;
+	stroke: white;
+	stroke-width: 1px;
+	fill: none;
+}
+
+.stats-PieChart path.slice{
+	stroke-width: 2px;
+}
